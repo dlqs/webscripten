@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Editor</title>
+	<style>
+		#llcFrame iframe {
+			border: 1px solid blue;
+			display: block;
+			width: 40em;
+			height: 25em;
+		}
+
+		#lldFrame iframe {
+			border: 1px solid blue;
+			display: block;
+			width: 40em;
+			height: 25em;
+		}
+
+		#runtimeFrame iframe {
+			border: 1px solid blue;
+			display: block;
+			width: 40em;
+			height: 25em;
+		}
+	</style>
+	<meta charset="utf-8" />
+	<link rel="icon" href="data:,">
+</head>
+
+<body>
+	<h2>LLC, in WebAssembly</h2>
+	<p>Compile LLVM IR with LLC</p>
+	<p>Open console for info</p>
+	<div id="llcFrame">
+		<iframe src="llc.html"></iframe>
+	</div>
+	<!--
+
+	<div id="lldFrame">
+		<iframe src="lld/lld.html"></iframe>
+	</div>
+	-->
+
+	<br />
+	WebAssembly Binary
+	<!--
+		<div id="runtimeFrame">
+			<iframe src="runtime/runtime.html"></iframe>
+			<button type="button">Run</button> 
+		</div>
+		<iframe id="frame2" src="inner.html"></iframe> -->
+	<br />
+</body>
+
+</html>
