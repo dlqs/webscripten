@@ -1,6 +1,6 @@
 // Globals
 var Module; // this must be globally declared!!!
-const compileButton = document.getElementById("llcCompile")
+const compileButton = document.getElementById("llcCompile");
 
 function setupEditor() {
   // Setup editor
@@ -14,46 +14,47 @@ function setupEditor() {
     window.onresize = function () {
       window.editor.layout();
     };
-
   });
 }
 
 function setupLLC() {
   const preRun = () => {
-      console.log("LLC: pre run")
-      if (localStorage.getItem("a.o") !== null) {
-        console.log("LLC: pre run: found existing a.o, removing it first.")
-        localStorage.removeItem("a.o")
-      }
+    console.log("LLC: pre run");
+    if (localStorage.getItem("a.o") !== null) {
+      console.log("LLC: pre run: found existing a.o, removing it first.");
+      localStorage.removeItem("a.o");
+    }
 
-      if (window.editor) {
-        FS.writeFile("./a.ll", window.editor.getValue())
-      } else {
-        console.log("LLC: pre run: Could not find window.editor. Is setupLLC running before setupEditor?")
-      }
-  }
+    if (window.editor) {
+      FS.writeFile("./a.ll", window.editor.getValue());
+    } else {
+      console.log(
+        "LLC: pre run: Could not find window.editor. Is setupLLC running before setupEditor?"
+      );
+    }
+  };
   const postRun = () => {
-      const exists = FS.analyzePath("./a.o").exists
-      if (exists) {
-        const uint8 = FS.readFile("./a.o", { encoding: "binary" });
-        const b64 = Uint8ArrayToBase64(uint8)
-        console.log("LLC: post run: writing output to localStorage as a.o")
-        localStorage.setItem("a.o", b64);
-      } else {
-        console.log("LLC: post run: no output")
-      }
-  }
+    const exists = FS.analyzePath("./a.o").exists;
+    if (exists) {
+      const uint8 = FS.readFile("./a.o", { encoding: "binary" });
+      const hex = Uint8ArrayToHex(uint8)
+      console.log("LLC: post run: writing output to localStorage as a.o");
+      localStorage.setItem("a.o", hex);
+    } else {
+      console.log("LLC: post run: no output");
+    }
+  };
   const onRuntimeInitialized = () => {
-      compileButton.addEventListener("click", function() {
-        console.log("LLC: compile button clicked")
-        // Reset run(); don't ask why
-        calledRun = false
-        shouldRunNow = true
-        Module["preRun"] = preRun
-        Module["postRun"] = postRun
-        Module["run"]()
-      })
-  }
+    compileButton.addEventListener("click", function () {
+      console.log("LLC: compile button clicked");
+      // Reset run(); don't ask why
+      calledRun = false;
+      shouldRunNow = true;
+      Module["preRun"] = preRun;
+      Module["postRun"] = postRun;
+      Module["run"]();
+    });
+  };
 
   Module = {
     preRun: preRun,
@@ -79,8 +80,10 @@ function setupLLC() {
         text = Array.prototype.slice.call(arguments).join(" ");
 
       // Swallow these annoying warnings
-      const regex = new RegExp('(is not a recognized feature|processor for this target)');
-      if (regex.test(text)) return
+      const regex = new RegExp(
+        "(is not a recognized feature|processor for this target)"
+      );
+      if (regex.test(text)) return;
 
       console.error(text);
     },
@@ -89,10 +92,10 @@ function setupLLC() {
 
 // Entry point
 function pre() {
-  setupEditor()
-  setupLLC()
+  setupEditor();
+  setupLLC();
 }
-pre()
+pre();
 
 function hello_world_ll() {
   return `; ModuleID = 'hello_world.c'
