@@ -14,7 +14,7 @@
 // before the code. Then that object will be used in the code, and you
 // can continue to use Module afterwards as well.
 
-function wrapMain() {
+function runWasm(Module) {
 
 var Module = typeof Module !== 'undefined' ? Module : {};
 
@@ -4934,8 +4934,4 @@ if (Module['noInitialRun']) shouldRunNow = false;
 
 run();
 
-
 }
-
-
-
