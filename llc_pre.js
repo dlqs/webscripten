@@ -1,7 +1,7 @@
 // Globals
 const compileButton = document.getElementById("llcCompile");
 
-function setupEditor() {
+function setup() {
   // Setup editor
   require.config({ paths: { vs: "../../node_modules/monaco-editor/min/vs" } });
   require(["vs/editor/editor.main"], function () {
@@ -14,82 +14,75 @@ function setupEditor() {
       window.editor.layout();
     };
 
-    const module = setupModule()
+    function setupModule() {
+      function preRun() {
+        console.log("LLC: pre run");
+        if (localStorage.getItem("a.o") !== null) {
+          console.log("LLC: pre run: found existing a.o, removing it first.");
+          localStorage.removeItem("a.o");
+        }
+
+        if (window.editor) {
+          this.FS.writeFile("./a.ll", window.editor.getValue());
+        } else {
+          console.log(
+            "LLC: pre run: Could not find window.editor. Is setupLLC running before setupEditor?"
+          );
+        }
+      };
+      function postRun() {
+        const exists = this.FS.analyzePath("./a.o").exists;
+        if (exists) {
+          const uint8 = this.FS.readFile("./a.o", { encoding: "binary" });
+          const hex = Uint8ArrayToHex(uint8)
+          console.log("LLC: post run: writing output to localStorage as a.o");
+          localStorage.setItem("a.o", hex);
+        } else {
+          console.log("LLC: post run: no output");
+        }
+      };
+
+      module = {
+        arguments: ["-march=wasm32", "a.ll", "-filetype=obj", "-o", "./a.o"],
+        print: (function () {
+          var element = document.getElementById("output");
+          if (element) element.value = ""; // clear browser cache
+          return function (text) {
+            if (arguments.length > 1)
+              text = Array.prototype.slice.call(arguments).join(" ");
+            console.log(text);
+            if (element) {
+              element.value += text + "\n";
+              element.scrollTop = element.scrollHeight; // focus on bottom
+            }
+          };
+        })(),
+        printErr: function (text) {
+          if (arguments.length > 1)
+            text = Array.prototype.slice.call(arguments).join(" ");
+
+          // Swallow these annoying warnings
+          const regex = new RegExp(
+            "(is not a recognized feature|processor for this target)"
+          );
+          if (regex.test(text)) return;
+
+          console.error(text);
+        },
+      };
+      module.preRun = preRun.bind(module)
+      module.postRun = postRun.bind(module)
+      return module
+    }
 
     compileButton.addEventListener("click", function () {
       console.log("LLC: compile button clicked");
-      runLLC(module)
+      runLLC(setupModule())
     });
   });
 }
 
-function setupModule() {
-  function preRun() {
-    console.log("LLC: pre run");
-    if (localStorage.getItem("a.o") !== null) {
-      console.log("LLC: pre run: found existing a.o, removing it first.");
-      localStorage.removeItem("a.o");
-    }
-
-    if (window.editor) {
-      this.FS.writeFile("./a.ll", window.editor.getValue());
-    } else {
-      console.log(
-        "LLC: pre run: Could not find window.editor. Is setupLLC running before setupEditor?"
-      );
-    }
-  };
-  function postRun() {
-    const exists = this.FS.analyzePath("./a.o").exists;
-    if (exists) {
-      const uint8 = this.FS.readFile("./a.o", { encoding: "binary" });
-      const hex = Uint8ArrayToHex(uint8)
-      console.log("LLC: post run: writing output to localStorage as a.o");
-      localStorage.setItem("a.o", hex);
-    } else {
-      console.log("LLC: post run: no output");
-    }
-  };
-
-  module = {
-    arguments: ["-march=wasm32", "a.ll", "-filetype=obj", "-o", "./a.o"],
-    print: (function () {
-      var element = document.getElementById("output");
-      if (element) element.value = ""; // clear browser cache
-      return function (text) {
-        if (arguments.length > 1)
-          text = Array.prototype.slice.call(arguments).join(" ");
-        console.log(text);
-        if (element) {
-          element.value += text + "\n";
-          element.scrollTop = element.scrollHeight; // focus on bottom
-        }
-      };
-    })(),
-    printErr: function (text) {
-      if (arguments.length > 1)
-        text = Array.prototype.slice.call(arguments).join(" ");
-
-      // Swallow these annoying warnings
-      const regex = new RegExp(
-        "(is not a recognized feature|processor for this target)"
-      );
-      if (regex.test(text)) return;
-
-      console.error(text);
-    },
-  };
-  module.preRun = preRun.bind(module)
-  module.postRun = postRun.bind(module)
-  return module
-}
-
-// Entry point
-function pre() {
-  setupEditor();
-  //setupLLC();
-}
-pre();
+setup()
 
 function hello_world_ll() {
   return `; ModuleID = 'hello_world.c'
