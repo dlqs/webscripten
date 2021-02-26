@@ -1,3 +1,4 @@
+function runLLC(Module) {
 var Module = typeof Module !== "undefined" ? Module : {};
 var moduleOverrides = {};
 var key;
@@ -4816,3 +4817,5 @@ if (Module["preInit"]) {
 var shouldRunNow = true;
 if (Module["noInitialRun"]) shouldRunNow = false;
 run();
+
+}

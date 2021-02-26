@@ -1,5 +1,4 @@
 // Globals
-var Module; // this must be globally declared!!!
 const compileButton = document.getElementById("llcCompile");
 
 function setupEditor() {
@@ -14,11 +13,18 @@ function setupEditor() {
     window.onresize = function () {
       window.editor.layout();
     };
+
+    const module = setupModule()
+
+    compileButton.addEventListener("click", function () {
+      console.log("LLC: compile button clicked");
+      runLLC(module)
+    });
   });
 }
 
-function setupLLC() {
-  const preRun = () => {
+function setupModule() {
+  function preRun() {
     console.log("LLC: pre run");
     if (localStorage.getItem("a.o") !== null) {
       console.log("LLC: pre run: found existing a.o, removing it first.");
@@ -26,17 +32,17 @@ function setupLLC() {
     }
 
     if (window.editor) {
-      FS.writeFile("./a.ll", window.editor.getValue());
+      this.FS.writeFile("./a.ll", window.editor.getValue());
     } else {
       console.log(
         "LLC: pre run: Could not find window.editor. Is setupLLC running before setupEditor?"
       );
     }
   };
-  const postRun = () => {
-    const exists = FS.analyzePath("./a.o").exists;
+  function postRun() {
+    const exists = this.FS.analyzePath("./a.o").exists;
     if (exists) {
-      const uint8 = FS.readFile("./a.o", { encoding: "binary" });
+      const uint8 = this.FS.readFile("./a.o", { encoding: "binary" });
       const hex = Uint8ArrayToHex(uint8)
       console.log("LLC: post run: writing output to localStorage as a.o");
       localStorage.setItem("a.o", hex);
@@ -44,23 +50,8 @@ function setupLLC() {
       console.log("LLC: post run: no output");
     }
   };
-  const onRuntimeInitialized = () => {
-    compileButton.addEventListener("click", function () {
-      console.log("LLC: compile button clicked");
-      // Reset run(); don't ask why
-      calledRun = false;
-      shouldRunNow = true;
-      Module["preRun"] = preRun;
-      Module["postRun"] = postRun;
-      Module["run"]();
-    });
-  };
 
-  Module = {
-    preRun: preRun,
-    postRun: postRun,
-    noInitialRun: true,
-    onRuntimeInitialized: onRuntimeInitialized,
+  module = {
     arguments: ["-march=wasm32", "a.ll", "-filetype=obj", "-o", "./a.o"],
     print: (function () {
       var element = document.getElementById("output");
@@ -88,12 +79,15 @@ function setupLLC() {
       console.error(text);
     },
   };
+  module.preRun = preRun.bind(module)
+  module.postRun = postRun.bind(module)
+  return module
 }
 
 // Entry point
 function pre() {
   setupEditor();
-  setupLLC();
+  //setupLLC();
 }
 pre();
 
