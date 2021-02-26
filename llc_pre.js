@@ -29,18 +29,18 @@ function setup() {
             "LLC: pre run: Could not find window.editor. Is setupLLC running before setupEditor?"
           );
         }
-      };
+      }
       function postRun() {
         const exists = this.FS.analyzePath("./a.o").exists;
         if (exists) {
           const uint8 = this.FS.readFile("./a.o", { encoding: "binary" });
-          const hex = Uint8ArrayToHex(uint8)
+          const hex = Uint8ArrayToHex(uint8);
           console.log("LLC: post run: writing output to localStorage as a.o");
           localStorage.setItem("a.o", hex);
         } else {
           console.log("LLC: post run: no output");
         }
-      };
+      }
 
       module = {
         arguments: ["-march=wasm32", "a.ll", "-filetype=obj", "-o", "./a.o"],
@@ -70,19 +70,19 @@ function setup() {
           console.error(text);
         },
       };
-      module.preRun = preRun.bind(module)
-      module.postRun = postRun.bind(module)
-      return module
+      module.preRun = preRun.bind(module);
+      module.postRun = postRun.bind(module);
+      return module;
     }
 
     compileButton.addEventListener("click", function () {
       console.log("LLC: compile button clicked");
-      runLLC(setupModule())
+      runLLC(setupModule());
     });
   });
 }
 
-setup()
+setup();
 
 function hello_world_ll() {
   return `; ModuleID = 'hello_world.c'
