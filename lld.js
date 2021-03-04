@@ -5112,5 +5112,88 @@ function runLLD(Module) {
   }
   var shouldRunNow = true;
   if (Module["noInitialRun"]) shouldRunNow = false;
+
+  // function read_libc(){
+  //   // untar sysroot to lld's FS
+  //  console.log("Loading tar...");
+  //   var sysroot = await fetch('sysroot.tar')
+  //                 .then(res => res.arrayBuffer())
+  //                 .then(buf => new Uint8Array(buf));
+  //   console.log(sysroot);
+                  
+  //  let offset = 0;
+  
+  //  const readStr = (len = -1) => {
+  //      let str = ''
+  //      let end = sysroot.length
+  //      if (len != -1) { end = offset + len }
+  //      for (let i = offset; i < end && sysroot[i] != 0; ++i) { str += String.fromCharCode(sysroot[i]) }
+  
+  //      offset += len;
+  //      return str;
+  //  }
+  //  const readOctal = (len) => {
+  //    return parseInt(readStr(len), 8);
+  // }
+  
+  // const alignUp = () => {
+  //    offset = (offset + 511) & ~511;
+  // }
+  
+  // const readEntry = () => {
+  //    if (offset + 512 > sysroot.length) {
+  //        return null;
+  //    }
+  
+  //    const entry = {
+  //        filename : readStr(100),
+  //        mode : readOctal(8),
+  //        owner : readOctal(8),
+  //        group : readOctal(8),
+  //        size : readOctal(12),
+  //        mtim : readOctal(12),
+  //        checksum : readOctal(8),
+  //        type : readStr(1),
+  //        linkname : readStr(100),
+  //    };
+  
+  //    if (!readStr(8).startsWith('ustar')) {
+  //        return null;
+  //    }
+  
+  //    entry.ownerName = readStr(32);
+  //    entry.groupName = readStr(32);
+  //    entry.devMajor = readStr(8);
+  //    entry.devMinor = readStr(8);
+  //    entry.filenamePrefix = readStr(155);
+  //    alignUp();
+  
+  //    if (entry.type === '0') {        // Regular file.
+  //        entry.contents = sysroot.subarray(offset, offset + entry.size);
+  //        offset += entry.size;
+  //        alignUp();
+  //    } else if (entry.type !== '5') { // Directory.
+  //        console.log('type', entry.type);
+  //        assert(false);
+  //    }
+  //    return entry;
+  //  }
+  //  let entry;
+  //  while (entry = readEntry()) {
+  //      switch (entry.type) {
+  //          case '0': // Regular file.
+  //              this.FS.writeFile(entry.filename, entry.contents);
+  //              console.log("writing file: " + entry.filename);
+  //              break;
+  //          case '5':
+  //              this.FS.mkdir(entry.filename);
+  //              console.log("Making folder: " +  entry.filename);
+  //              break;
+  //          default:
+  //              break;
+  //      }
+  //    }
+  // }
+
   run();
 }
