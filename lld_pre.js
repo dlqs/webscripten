@@ -1,5 +1,6 @@
 // Globals
 const linkButton = document.getElementById("lldLink");
+let sysroot;
 
  function setup() {
   // Setup editor
@@ -16,15 +17,14 @@ const linkButton = document.getElementById("lldLink");
 
     function setupModule() {
 
-      async function read_libc(){
-      // untar sysroot to lld's FS
-      console.log("Loading tar...");
-      var sysroot = await fetch('sysroot.tar')
-                  .then(res => res.arrayBuffer())
-                  .then(buf => new Uint8Array(buf));
-      console.log(sysroot);
+
+      function preRun() {
+        
+  // untar sysroot to lld's FS
+  console.log("sysroot:", sysroot);
+  console.log("Loading tar...");
                   
-    let offset = 0;
+  let offset = 0;
   
    const readStr = (len = -1) => {
        let str = ''
@@ -96,9 +96,6 @@ const linkButton = document.getElementById("lldLink");
                break;
        }
      }
-  }
-
-      function preRun() {
         console.log("LLD: pre run");
         if (localStorage.getItem("a.wasm") !== null) {
           console.log(
@@ -127,6 +124,12 @@ const linkButton = document.getElementById("lldLink");
         arguments: [
           "-flavor",
           "wasm",
+          "-L/lib",
+          "-lc",
+          "-lc++",
+          "-lc++abi",
+          "/lib/clang/11.0.0/lib/wasi/libclang_rt.builtins-wasm32.a",
+          "/lib/crt1.o",
           //"--import-memory",
           "--entry=main",
           "./a.o",
@@ -154,12 +157,15 @@ const linkButton = document.getElementById("lldLink");
       };
       module.preRun = preRun.bind(module);
       module.postRun = postRun.bind(module);
-      module.read_libc = read_libc.bind(module);
       return module;
     }
 
-    linkButton.addEventListener("click", function () {
+    linkButton.addEventListener("click", async function () {
       console.log("LLD: link button clickedaaaaaaaa");
+      sysroot = await fetch('sysroot.tar')
+               .then(res => res.arrayBuffer())
+               .then(buf => new Uint8Array(buf));
+
       const a = localStorage.getItem("a.o");
       if (a !== null) {
         window.editor.setValue(a);
