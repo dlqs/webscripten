@@ -1,9 +1,33 @@
 // Globals
 const runButton = document.getElementById("runButton");
 const textarea = document.getElementById("container");
+let wasi,wasmfs,browserBindings;
 
-runButton.addEventListener("click", function () {
+runButton.addEventListener("click", async function () {
   console.log("Run Wasm: run clicked");
+  
+  WASI = (await import('https://unpkg.com/@wasmer/wasi@0.12.0/lib/index.esm.js')).WASI;
+  WasmFs = (await import('https://unpkg.com/@wasmer/wasmfs@0.12.0/lib/index.esm.js')).WasmFs;
+  browserBindings = (await import('./browserBindings.js')).default
+
+  let module = await WebAssembly.compile(HexToUint8Array(localStorage.getItem("a.wasm")));
+  
+  let wasmFs = new WasmFs()
+  let wasi = new WASI({
+                 bindings: {
+                     ...browserBindings,
+                     fs: wasmFs.fs,
+                 }
+             })
+
+  let instance = await WebAssembly.instantiate(module, {
+            ...wasi.getImports(module)
+             })
+
+  wasi.start(instance);
+  let stdout = await wasmFs.getStdOut();
+  document.getElementById('container').value = stdout
+
 
   function setupModule() {
     let hex = localStorage.getItem("a.wasm");
@@ -41,7 +65,7 @@ runButton.addEventListener("click", function () {
     return module;
   }
 
-  runWasm(setupModule());
+  // runWasm(setupModule());
 });
 
 function hello_world_wasm() {
