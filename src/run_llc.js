@@ -4,11 +4,6 @@ const util = require("./util.js");
 function runLLC(code) {
   return new Promise((resolve, reject) => {
     function preRun() {
-      console.log("LLC: pre run");
-      if (localStorage.getItem("a.o") !== null) {
-        console.log("LLC: pre run: found existing a.o, removing it first.");
-        localStorage.removeItem("a.o");
-      }
       this.FS.writeFile("./a.ll", code);
     }
     function postRun() {
@@ -16,15 +11,17 @@ function runLLC(code) {
       if (exists) {
         const uint8 = this.FS.readFile("./a.o", { encoding: "binary" });
         const hex = util.Uint8ArrayToHex(uint8);
-        console.log("LLC: post run: writing output to localStorage as a.o");
-        localStorage.setItem("a.o", hex);
         resolve(hex);
       } else {
-        reject("llc: no postRun output!");
+        reject(new Error("run_llc: missing output from compilation"));
       }
     }
     module = {
       arguments: ["-march=wasm32", "a.ll", "-filetype=obj", "-o", "./a.o"],
+      locateFile: function(path, prefix) {
+        console.log('static/' + path);
+        return 'static/' + path;
+      },
       print: function (text) {
         if (arguments.length > 1) {
           text = Array.prototype.slice.call(arguments).join(" ");

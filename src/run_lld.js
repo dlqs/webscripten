@@ -6,7 +6,6 @@ function runLLD(code) {
     function preRun() {
       // untar sysroot to lld's FS
       console.log("sysroot:", sysroot);
-      console.log("Loading tar...");
       let offset = 0;
       const readStr = (len = -1) => {
         let str = "";
@@ -107,6 +106,10 @@ function runLLD(code) {
         "-o",
         "./a.wasm",
       ],
+      locateFile: function(path, prefix) {
+        console.log('static/' + path);
+        return 'static/' + path;
+      },
       print: function (text) {
         if (arguments.length > 1)
           text = Array.prototype.slice.call(arguments).join(" ");
@@ -120,7 +123,7 @@ function runLLD(code) {
     };
     module.preRun = preRun.bind(module);
     module.postRun = postRun.bind(module);
-    fetch("sysroot.tar")
+    fetch("static/sysroot.tar")
       .then((res) => res.arrayBuffer())
       .then((buf) => {
         sysroot = new Uint8Array(buf);

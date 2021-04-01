@@ -1,19 +1,11 @@
 const util = require("./util.js");
-const WASI = require("../wasi.index.esm").WASI;
-const WasmFs = require("../wasmfs.index.esm").WasmFs;
-const browserBindings = require("../browserBindings.js").default;
-let wasi, wasmfs;
+const WASI = require("./static/wasi.index.esm").WASI;
+const WasmFs = require("./static/wasmfs.index.esm").WasmFs;
+const browserBindings = require("./static/browserBindings.js").default;
 
 function runWasm(code) {
   return new Promise(async (resolve, reject) => {
     wasm = util.HexToUint8Array(code);
-    //WASI = (
-    //  await import("https://unpkg.com/@wasmer/wasi@0.12.0/lib/index.esm.js")
-    //).WASI;
-    //WasmFs = (
-    //  await import("https://unpkg.com/@wasmer/wasmfs@0.12.0/lib/index.esm.js")
-    //).WasmFs;
-    //browserBindings = (await import("../browserBindings.js")).default;
     let module = await WebAssembly.compile(wasm);
     let wasmFs = new WasmFs();
     let wasi = new WASI({
