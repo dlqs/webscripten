@@ -2,7 +2,7 @@
   "name": "webscripten",
   "version": "1.2.0",
   "description": "",
-  "main": "./dist/webscripten.js",
+  "main": "dist/webscripten.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "prettier --write src/*.js",
@@ -24,6 +24,6 @@
     "crypto": false
   },
   "files": [
-    "./dist/*"
+    "dist/*"
   ]
 }
