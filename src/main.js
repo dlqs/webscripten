@@ -8,7 +8,7 @@ const runWasm = require('./run_wasm.js')
  * @param {string} ir - LLVM IR
  * @return {Promise<string>} obj - Compiled object file in hex
  */
-exports.compile = runLLC.runLLC
+const compile = runLLC.runLLC
 
 /**
  * Links an object file against libc, libc++ etc. with llvm/lld.
@@ -16,7 +16,7 @@ exports.compile = runLLC.runLLC
  * @param {string} obj - Object file in hex
  * @return {Promise<string>} wasm - Runnable WASM binary in hex
  */
-exports.link = runLLD.runLLD
+const link = runLLD.runLLD
 
 /**
  * Runs a WASM binary.
@@ -24,7 +24,7 @@ exports.link = runLLD.runLLD
  * @param {string} wasm - Runnable WASM binary in hex
  * @return {Promise<string>} stdout - output
  */
-exports.run = runWasm.runWasm
+const run = runWasm.runWasm
 
 /**
  * Compiles, links and runs LLVM IR.
@@ -32,7 +32,12 @@ exports.run = runWasm.runWasm
  * @param {string} ir - LLVM IR
  * @return {Promise<string>} stdout - output
  */
-exports.compileLinkRun = (code) =>
+const compileLinkRun = (code) =>
   compile(code)
     .then((obj) => link(obj))
     .then((wasm) => run(wasm))
+
+exports.compile = compile
+exports.link = link
+exports.run = run
+exports.compileLinkRun = compileLinkRun
