@@ -1,6 +1,6 @@
 {
   "name": "demo",
-  "version": "1.0.5",
+  "version": "1.0.0",
   "description": "Demo for the webscripten package",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "webscripten": "^1.0.4"
+    "webscripten": "^1.0.5"
   },
   "devDependencies": {
     "webpack": "^5.28.0",

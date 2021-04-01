@@ -1,4 +1,7 @@
-const webscripten = require("webscripten");
+//const webscripten = require("webscripten").compileLinkRun;
+const path = require('path')
+//import { compileLinkRun } from 'webscripten'
+const webscripten = require('webscripten')
 //import * as webscripten from './webscripten'
 //import * as webscripten from './node_modules/webscripten/dist/webscripten.js'
 
@@ -32,11 +35,14 @@ attributes #1 = { "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-
 !2 = !{i32 7, !"PIE Level", i32 2}
 !3 = !{!"clang version 11.0.1"}
 `;
-console.log(webscripten)
 
 // Example of adding compileLinkRun to a button
 const compileButton = document.getElementById("llcCompile");
 compileButton.addEventListener("click", function () {
+  console.log(path)
+  console.log("fs")
+  console.log(webscripten)
+  console.log(compileLinkRun)
   webscripten.compileLinkRun(codeBox.value).then(
     (resolved) => {
       console.log(resolved);
