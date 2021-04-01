@@ -6,6 +6,7 @@ module.exports = {
   target: 'web',
   mode: 'production',
   output: {
+    library: 'webscripten',
     filename: 'webscripten.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
