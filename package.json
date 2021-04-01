@@ -1,6 +1,6 @@
 {
   "name": "webscripten",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "src/main.js",
   "scripts": {
@@ -23,5 +23,7 @@
   "browser": {
     "crypto": false
   },
-  "files": ["dist/*"]
+  "files": [
+    "dist/*"
+  ]
 }
