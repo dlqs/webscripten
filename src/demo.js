@@ -1,10 +1,7 @@
 const main = require("./main.js");
 const codeBox = document.getElementById("code");
 const compileButton = document.getElementById("llcCompile");
-codeBox.value = hello_world_ll();
-
-function hello_world_ll() {
-  return `; ModuleID = 'hello_world.c'
+codeBox.value = `; ModuleID = 'hello_world.c'
 source_filename = "hello_world.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-pc-linux-gnu"
@@ -32,9 +29,10 @@ attributes #1 = { "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-
 !2 = !{i32 7, !"PIE Level", i32 2}
 !3 = !{!"clang version 11.0.1"}
 `;
-}
+
+// Example of adding compileLinkRun to a button
 compileButton.addEventListener("click", function () {
-  main.compileLinkRun(hello_world_ll()).then(
+  main.compileLinkRun(codeBox.value).then(
     (resolved) => {
       console.log(resolved);
     },
