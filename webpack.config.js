@@ -10,7 +10,7 @@ module.exports = {
       name: 'webscripten',
       type: 'umd'
     },
-    filename: 'webscripten.js',
+    filename: 'webscripten.bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },

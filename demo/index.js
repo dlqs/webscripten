@@ -1,10 +1,4 @@
-//const webscripten = require("webscripten").compileLinkRun;
-const path = require('path')
-const is_even = require('is-even')
-//import { compileLinkRun } from 'webscripten'
 const webscripten = require('webscripten')
-//import * as webscripten from './webscripten'
-//import * as webscripten from './node_modules/webscripten/dist/webscripten.js'
 
 // Sample LLVM IR
 const codeBox = document.getElementById("code");
@@ -36,9 +30,6 @@ attributes #1 = { "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-
 !2 = !{i32 7, !"PIE Level", i32 2}
 !3 = !{!"clang version 11.0.1"}
 `;
-
-console.log(is_even)
-console.log(webscripten)
 
 // Example of adding compileLinkRun to a button
 const compileButton = document.getElementById("llcCompile");
