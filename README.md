@@ -1,3 +1,6 @@
+## To build
+npx webpack --config webpack.config.js
+
 ## API
 in src/main.js
 

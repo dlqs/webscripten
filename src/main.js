@@ -2,9 +2,9 @@ const runLLC = require("./run_llc.js");
 const runLLD = require("./run_lld.js");
 const runWasm = require("./run_wasm.js");
 
-const compile = runLLC;
-const link = runLLD;
-const run = runWasm;
+const compile = runLLC.runLLC;
+const link = runLLD.runLLD;
+const run = runWasm.runWasm;
 
 function compileLinkRun(code) {
   return compile(code)

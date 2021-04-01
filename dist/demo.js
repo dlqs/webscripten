@@ -10715,9 +10715,9 @@ const runLLC = __webpack_require__(526);
 const runLLD = __webpack_require__(542);
 const runWasm = __webpack_require__(816);
 
-const compile = runLLC;
-const link = runLLD;
-const run = runWasm;
+const compile = runLLC.runLLC;
+const link = runLLD.runLLD;
+const run = runWasm.runWasm;
 
 function compileLinkRun(code) {
   return compile(code)
