@@ -2,7 +2,7 @@
   "name": "webscripten",
   "version": "1.0.9",
   "description": "",
-  "main": "dist/hello.js",
+  "main": "dist/webscripten.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "prettier --write src/*.js",

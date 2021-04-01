@@ -2,11 +2,11 @@ const path = require('path')
 const copyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  entry: './src/hello.js',
+  entry: './src/main.js',
   target: 'web',
   mode: 'production',
   output: {
-    filename: 'hello.js',
+    filename: 'webscripten.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
@@ -21,6 +21,7 @@ module.exports = {
       patterns: [
         { from: './src/static/llc.wasm' },
         { from: './src/static/lld.wasm' },
+        { from: './src/static/webscripten.d.ts' },
         { from: './src/static/sysroot.tar' },
         { from: './src/static/wasi.index.esm.js' },
         { from: './src/static/wasmfs.index.esm.js' },
