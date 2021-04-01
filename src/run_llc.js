@@ -18,6 +18,9 @@ function runLLC(code) {
     }
     module = {
       arguments: ['-march=wasm32', 'a.ll', '-filetype=obj', '-o', './a.o'],
+      locateFile: function (path, prefix) {
+        return 'static/' + path
+      },
       print: function (text) {
         if (arguments.length > 1) {
           text = Array.prototype.slice.call(arguments).join(' ')

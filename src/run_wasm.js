@@ -1,7 +1,7 @@
 const util = require('./util.js')
-const WASI = require('./static/wasi.index.esm').WASI
-const WasmFs = require('./static/wasmfs.index.esm').WasmFs
-const browserBindings = require('./static/browserBindings.js').default
+const WASI = require('./wasi.index.esm').WASI
+const WasmFs = require('./wasmfs.index.esm').WasmFs
+const browserBindings = require('./browserBindings.js').default
 
 function runWasm(code) {
   return new Promise(async (resolve, reject) => {

@@ -23,12 +23,7 @@ module.exports = {
   plugins: [
     new copyWebpackPlugin({
       patterns: [
-        { from: './src/static/llc.wasm' },
-        { from: './src/static/lld.wasm' },
-        { from: './src/static/webscripten.d.ts' },
-        { from: './src/static/sysroot.tar' },
-        { from: './src/static/wasi.index.esm.js' },
-        { from: './src/static/wasmfs.index.esm.js' },
+        { from: './src/static/' , to: 'static/' }
       ],
     }),
   ],
