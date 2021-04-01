@@ -106,10 +106,6 @@ function runLLD(code) {
         '-o',
         './a.wasm',
       ],
-      locateFile: function (path, prefix) {
-        console.log('static/' + path)
-        return 'static/' + path
-      },
       print: function (text) {
         if (arguments.length > 1)
           text = Array.prototype.slice.call(arguments).join(' ')
