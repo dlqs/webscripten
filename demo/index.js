@@ -43,9 +43,6 @@ console.log(webscripten)
 // Example of adding compileLinkRun to a button
 const compileButton = document.getElementById("llcCompile");
 compileButton.addEventListener("click", function () {
-  console.log(path)
-  console.log("fs")
-  console.log(compileLinkRun)
   webscripten.compileLinkRun(codeBox.value).then(
     (resolved) => {
       console.log(resolved);
