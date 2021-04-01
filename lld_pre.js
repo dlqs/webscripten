@@ -161,7 +161,7 @@ function setup() {
     }
 
     linkButton.addEventListener("click", async function () {
-      console.log("LLD: link button clickedaaaaaaaa");
+      console.log("LLD: link button clicked");
       sysroot = await fetch('sysroot.tar')
         .then(res => res.arrayBuffer())
         .then(buf => new Uint8Array(buf));
