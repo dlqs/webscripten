@@ -1,6 +1,9 @@
 const webscripten = require("webscripten");
+//import * as webscripten from './webscripten'
+//import * as webscripten from './node_modules/webscripten/dist/webscripten.js'
+
+// Sample LLVM IR
 const codeBox = document.getElementById("code");
-const compileButton = document.getElementById("llcCompile");
 codeBox.value = `; ModuleID = 'hello_world.c'
 source_filename = "hello_world.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
@@ -29,8 +32,10 @@ attributes #1 = { "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-
 !2 = !{i32 7, !"PIE Level", i32 2}
 !3 = !{!"clang version 11.0.1"}
 `;
+console.log(webscripten)
 
 // Example of adding compileLinkRun to a button
+const compileButton = document.getElementById("llcCompile");
 compileButton.addEventListener("click", function () {
   webscripten.compileLinkRun(codeBox.value).then(
     (resolved) => {
