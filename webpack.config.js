@@ -6,7 +6,10 @@ module.exports = {
   target: 'web',
   mode: 'production',
   output: {
-    library: 'webscripten',
+    library: {
+      name: 'webscripten',
+      type: 'umd'
+    },
     filename: 'webscripten.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
