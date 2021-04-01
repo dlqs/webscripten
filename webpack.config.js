@@ -2,11 +2,11 @@ const path = require('path')
 const copyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/hello.js',
   target: 'web',
   mode: 'production',
   output: {
-    filename: 'webscripten.js',
+    filename: 'hello.js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
