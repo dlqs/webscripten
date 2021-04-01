@@ -38,9 +38,4 @@ const compileLinkRun = (code) => {
     .then((wasm) => run(wasm))
 }
 
-module.exports = {
-  compile,
-  link,
-  run,
-  compileLinkRun,
-}
+module.exports = compileLinkRun;
