@@ -23636,9 +23636,9 @@ const run = runWasm.runWasm
  * @param {string} ir - LLVM IR
  * @return {Promise<string>} stdout - output
  */
-const compileLinkRun = (code) =>
-  compile(code)
-    .then((obj) => link(obj))
+const compileLinkRun = (code, staticPath) =>
+  compile(code, staticPath)
+    .then((obj) => link(obj, staticPath))
     .then((wasm) => run(wasm))
 
 exports.compile = compile
