@@ -34,7 +34,7 @@ attributes #1 = { "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-
 // Example of adding compileLinkRun to a button
 const compileButton = document.getElementById("llcCompile");
 compileButton.addEventListener("click", function () {
-  webscripten.compileLinkRun(codeBox.value).then(
+  webscripten.compileLinkRun(codeBox.value, 'static/').then(
     (resolved) => {
       console.log(resolved);
     },

@@ -13499,7 +13499,7 @@ exports.run = run
 const run = __nested_webpack_require_394745__(869).run
 const util = __nested_webpack_require_394745__(891)
 
-function runLLC(code) {
+function runLLC(code, staticPath) {
   return new Promise((resolve, reject) => {
     function preRun() {
       this.FS.writeFile('./a.ll', code)
@@ -13517,7 +13517,8 @@ function runLLC(code) {
     module = {
       arguments: ['-march=wasm32', 'a.ll', '-filetype=obj', '-o', './a.o'],
       locateFile: function (path, prefix) {
-        return 'static/' + path
+        // 'localhost:8000/assets/static/' + 'llc.wasm'
+        return staticPath + path
       },
       print: function (text) {
         if (arguments.length > 1) {
@@ -13552,13 +13553,13 @@ exports.runLLC = runLLC
 /***/ }),
 
 /***/ 542:
-/***/ ((module, exports, __nested_webpack_require_396450__) => {
+/***/ ((module, exports, __nested_webpack_require_396519__) => {
 
-/* module decorator */ module = __nested_webpack_require_396450__.nmd(module);
-const run = __nested_webpack_require_396450__(242).run
-const util = __nested_webpack_require_396450__(891)
+/* module decorator */ module = __nested_webpack_require_396519__.nmd(module);
+const run = __nested_webpack_require_396519__(242).run
+const util = __nested_webpack_require_396519__(891)
 let sysroot
-function runLLD(code) {
+function runLLD(code, staticPath) {
   return new Promise((resolve, reject) => {
     function preRun() {
       // untar sysroot to lld's FS
@@ -13664,7 +13665,8 @@ function runLLD(code) {
         './a.wasm',
       ],
       locateFile: function (path, prefix) {
-        return 'static/' + path
+        // 'localhost:8000/assets/static/' + 'llc.wasm'
+        return staticPath + path
       },
       print: function (text) {
         if (arguments.length > 1)
@@ -13679,7 +13681,7 @@ function runLLD(code) {
     }
     module.preRun = preRun.bind(module)
     module.postRun = postRun.bind(module)
-    fetch('static/sysroot.tar')
+    fetch(staticPath + 'sysroot.tar')
       .then((res) => res.arrayBuffer())
       .then((buf) => {
         sysroot = new Uint8Array(buf)
@@ -13697,12 +13699,12 @@ function hello_world_hex() {
 /***/ }),
 
 /***/ 816:
-/***/ ((__unused_webpack_module, exports, __nested_webpack_require_401183__) => {
+/***/ ((__unused_webpack_module, exports, __nested_webpack_require_401327__) => {
 
-const util = __nested_webpack_require_401183__(891)
-const WASI = __nested_webpack_require_401183__(664)/* .WASI */ .xP
-const WasmFs = __nested_webpack_require_401183__(325)/* .WasmFs */ .Y
-const browserBindings = __nested_webpack_require_401183__(417)/* .default */ .Z
+const util = __nested_webpack_require_401327__(891)
+const WASI = __nested_webpack_require_401327__(664)/* .WASI */ .xP
+const WasmFs = __nested_webpack_require_401327__(325)/* .WasmFs */ .Y
+const browserBindings = __nested_webpack_require_401327__(417)/* .default */ .Z
 
 function runWasm(code) {
   return new Promise(async (resolve, reject) => {
@@ -13740,11 +13742,11 @@ function hello_world_wasm() {
 /***/ }),
 
 /***/ 891:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_425559__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_425703__) => {
 
 "use strict";
-__nested_webpack_require_425559__.r(__webpack_exports__);
-/* harmony export */ __nested_webpack_require_425559__.d(__webpack_exports__, {
+__nested_webpack_require_425703__.r(__webpack_exports__);
+/* harmony export */ __nested_webpack_require_425703__.d(__webpack_exports__, {
 /* harmony export */   "Uint8ArrayToBase64": () => (/* binding */ Uint8ArrayToBase64),
 /* harmony export */   "Base64ToUint8Array": () => (/* binding */ Base64ToUint8Array),
 /* harmony export */   "Base64ToArrayBuffer": () => (/* binding */ Base64ToArrayBuffer),
@@ -13822,10 +13824,10 @@ function HexToUint8Array(str) {
 /***/ }),
 
 /***/ 664:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_427663__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_427807__) => {
 
 "use strict";
-/* harmony export */ __nested_webpack_require_427663__.d(__webpack_exports__, {
+/* harmony export */ __nested_webpack_require_427807__.d(__webpack_exports__, {
 /* harmony export */   "xP": () => (/* binding */ dc)
 /* harmony export */ });
 /* unused harmony exports WASIError, WASIExitError, WASIKillError */
@@ -13903,8 +13905,8 @@ function fa() {
 var ha =
     'undefined' !== typeof globalThis
       ? globalThis
-      : 'undefined' !== typeof __nested_webpack_require_427663__.g
-      ? __nested_webpack_require_427663__.g
+      : 'undefined' !== typeof __nested_webpack_require_427807__.g
+      ? __nested_webpack_require_427807__.g
       : {},
   k = 'undefined' !== typeof BigInt ? BigInt : ha.BigInt || Number,
   ia = DataView
@@ -13934,8 +13936,8 @@ ia.prototype.setBigUint64 ||
     return k('0b' + a + (b + c))
   }))
 var ja =
-    'undefined' !== typeof __nested_webpack_require_427663__.g
-      ? __nested_webpack_require_427663__.g
+    'undefined' !== typeof __nested_webpack_require_427807__.g
+      ? __nested_webpack_require_427807__.g
       : 'undefined' !== typeof self
       ? self
       : 'undefined' !== typeof window
@@ -15083,8 +15085,8 @@ var Ra = Object.freeze({
       ? globalThis
       : 'undefined' !== typeof window
       ? window
-      : 'undefined' !== typeof __nested_webpack_require_427663__.g
-      ? __nested_webpack_require_427663__.g
+      : 'undefined' !== typeof __nested_webpack_require_427807__.g
+      ? __nested_webpack_require_427807__.g
       : 'undefined' !== typeof self
       ? self
       : {}
@@ -16692,10 +16694,10 @@ var ac = (function (a) {
 /***/ }),
 
 /***/ 325:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_505860__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_506004__) => {
 
 "use strict";
-/* harmony export */ __nested_webpack_require_505860__.d(__webpack_exports__, {
+/* harmony export */ __nested_webpack_require_506004__.d(__webpack_exports__, {
 /* harmony export */   "Y": () => (/* binding */ sf)
 /* harmony export */ });
 /*
@@ -16868,8 +16870,8 @@ var l =
     ? globalThis
     : 'undefined' !== typeof window
     ? window
-    : 'undefined' !== typeof __nested_webpack_require_505860__.g
-    ? __nested_webpack_require_505860__.g
+    : 'undefined' !== typeof __nested_webpack_require_506004__.g
+    ? __nested_webpack_require_506004__.g
     : 'undefined' !== typeof self
     ? self
     : {}
@@ -17017,8 +17019,8 @@ var ja = u(function (a, b) {
   })
 t(ka)
 var la =
-    'undefined' !== typeof __nested_webpack_require_505860__.g
-      ? __nested_webpack_require_505860__.g
+    'undefined' !== typeof __nested_webpack_require_506004__.g
+      ? __nested_webpack_require_506004__.g
       : 'undefined' !== typeof self
       ? self
       : 'undefined' !== typeof window
@@ -23522,7 +23524,7 @@ var sf = (function () {
 /******/ 	var __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
-/******/ 	function __nested_webpack_require_694447__(moduleId) {
+/******/ 	function __nested_webpack_require_694591__(moduleId) {
 /******/ 		// Check if module is in cache
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
@@ -23536,7 +23538,7 @@ var sf = (function () {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_694447__);
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_694591__);
 /******/ 	
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
@@ -23549,9 +23551,9 @@ var sf = (function () {
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__nested_webpack_require_694447__.d = (exports, definition) => {
+/******/ 		__nested_webpack_require_694591__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
-/******/ 				if(__nested_webpack_require_694447__.o(definition, key) && !__nested_webpack_require_694447__.o(exports, key)) {
+/******/ 				if(__nested_webpack_require_694591__.o(definition, key) && !__nested_webpack_require_694591__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
@@ -23560,7 +23562,7 @@ var sf = (function () {
 /******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
-/******/ 		__nested_webpack_require_694447__.g = (function() {
+/******/ 		__nested_webpack_require_694591__.g = (function() {
 /******/ 			if (typeof globalThis === 'object') return globalThis;
 /******/ 			try {
 /******/ 				return this || new Function('return this')();
@@ -23572,13 +23574,13 @@ var sf = (function () {
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__nested_webpack_require_694447__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__nested_webpack_require_694591__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__nested_webpack_require_694447__.r = (exports) => {
+/******/ 		__nested_webpack_require_694591__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
@@ -23588,7 +23590,7 @@ var sf = (function () {
 /******/ 	
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
-/******/ 		__nested_webpack_require_694447__.nmd = (module) => {
+/******/ 		__nested_webpack_require_694591__.nmd = (module) => {
 /******/ 			module.paths = [];
 /******/ 			if (!module.children) module.children = [];
 /******/ 			return module;
@@ -23600,9 +23602,9 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 var exports = __webpack_exports__;
-const runLLC = __nested_webpack_require_694447__(526)
-const runLLD = __nested_webpack_require_694447__(542)
-const runWasm = __nested_webpack_require_694447__(816)
+const runLLC = __nested_webpack_require_694591__(526)
+const runLLD = __nested_webpack_require_694591__(542)
+const runWasm = __nested_webpack_require_694591__(816)
 
 /**
  * Compiles LLVM IR to an object file with llvm/llc.
@@ -23719,7 +23721,7 @@ attributes #1 = { "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-
 // Example of adding compileLinkRun to a button
 const compileButton = document.getElementById("llcCompile");
 compileButton.addEventListener("click", function () {
-  webscripten.compileLinkRun(codeBox.value).then(
+  webscripten.compileLinkRun(codeBox.value, 'static/').then(
     (resolved) => {
       console.log(resolved);
     },
