@@ -1,7 +1,7 @@
 const run = require('./llc.js').run
 const util = require('./util.js')
 
-function runLLC(code) {
+function runLLC(code, staticPath) {
   return new Promise((resolve, reject) => {
     function preRun() {
       this.FS.writeFile('./a.ll', code)
@@ -19,7 +19,8 @@ function runLLC(code) {
     module = {
       arguments: ['-march=wasm32', 'a.ll', '-filetype=obj', '-o', './a.o'],
       locateFile: function (path, prefix) {
-        return 'static/' + path
+        // 'localhost:8000/assets/static/' + 'llc.wasm'
+        return staticPath + path
       },
       print: function (text) {
         if (arguments.length > 1) {

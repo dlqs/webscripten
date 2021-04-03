@@ -1,7 +1,7 @@
 const run = require('./lld.js').run
 const util = require('./util.js')
 let sysroot
-function runLLD(code) {
+function runLLD(code, staticPath) {
   return new Promise((resolve, reject) => {
     function preRun() {
       // untar sysroot to lld's FS
@@ -107,7 +107,8 @@ function runLLD(code) {
         './a.wasm',
       ],
       locateFile: function (path, prefix) {
-        return 'static/' + path
+        // 'localhost:8000/assets/static/' + 'llc.wasm'
+        return staticPath + path
       },
       print: function (text) {
         if (arguments.length > 1)
@@ -122,7 +123,7 @@ function runLLD(code) {
     }
     module.preRun = preRun.bind(module)
     module.postRun = postRun.bind(module)
-    fetch('static/sysroot.tar')
+    fetch(staticPath + 'sysroot.tar')
       .then((res) => res.arrayBuffer())
       .then((buf) => {
         sysroot = new Uint8Array(buf)
