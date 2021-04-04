@@ -1,24 +1,30 @@
 # Webscripten
 Webscripten is a compiler for LLVM IR to WebAssembly, written in WebAssembly, using tools from the LLVM Project.
+This project allows for compilation and running of LLVM IR from entirely within the browser.
 Webscripten uses the LLVM IR compiler (llc) and LLVM Linker (lld) which have been compiled to WebAssembly.
 
 ## Usage
-Webscripen can be installed via npm/yarn and can be deployed using a Javascript bundler. 
-The WebAssembly binaries are lazily downloaded when required.
+Webscripen can be installed via npm/yarn and can be deployed using a Javascript bundler.
+An example is provided in the [demo folder](https://github.com/dlqs/webscripten/tree/master/demo). Visit the final deployed website [here](https://dlqs.github.io/webscripten/demo/dist/index.html).
+
+**Warning: the combined binaries are large (60MBs) and can cause significant lag (5-10 seconds) in the browser.**  
+The WebAssembly binaries are lazily downloaded, when required.
+Please ensure a minimum of 1GB of available RAM and patience when running this module.
+
 
 ### API
-#### webscripten.compile(code: string): Promise<string>
+#### webscripten.compile(code: string): Promise\<string>
 Returns a promise with the compiled LLVM IR (the object file) as a hex string.
 This is so that it can be easily passed around or stored in LocalStorage etc.
 Object files are *not* executable until they are linked.  
 
-#### webscripten.link(obj: string): Promise<string>
+#### webscripten.link(obj: string): Promise\<string>
 Returns a promise with the linked object file (the runnable WebAssembly module) as a hex string.
 
-#### webscripten.run(wasm: string): Promise<string>
+#### webscripten.run(wasm: string): Promise\<string>
 Returns a promise with the stdout from running the WebAssembly module.
 
-#### webscripten.compileLinkRun(code: string): Promise<string>
+#### webscripten.compileLinkRun(code: string): Promise\<string>
 Returns a promise with the stdout from compiling, linking and running the LLVM IR.
 This is a composition of the `compile`, `link` and `run` APIs described above.
 
