@@ -12,13 +12,13 @@ Returns a promise with the compiled LLVM IR (the object file) as a hex string.
 This is so that it can be easily passed around or stored in LocalStorage etc.
 Object files are *not* executable until they are linked.  
 
-#### webscripten.link(obj: string): string
+#### webscripten.link(obj: string): Promise<string>
 Returns a promise with the linked object file (the runnable WebAssembly module) as a hex string.
 
-#### webscripten.run(wasm: string): void
+#### webscripten.run(wasm: string): Promise<string>
 Returns a promise with the stdout from running the WebAssembly module.
 
-#### webscripten.run(code: string): void
+#### webscripten.compileLinkRun(code: string): Promise<string>
 Returns a promise with the stdout from compiling, linking and running the LLVM IR.
 This is a composition of the `compile`, `link` and `run` APIs described above.
 
@@ -26,11 +26,22 @@ Example:
 ```
 const webscripten = require('webscripten')
 
-const obj = await webscripten.compile(`ModuleID = 'hello_world.c'
+const ir = `; ModuleID = 'hello_world.c'
+source_filename = "hello_world.c"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-pc-linux-gnu"
+
+@.str = private unnamed_addr constant [14 x i8] c"Hello, World!\\00", align 1
+...
 < cut for brevity >
-`)
+`
+
+const obj = await webscripten.compile(ir)
 const wasm = await webscripten.link(obj)
 const out = await webscripten.run(wasm)
+
+const out2 = await webscripten.compileLinkRun(ir)
+// out and out2 are the same
 ```
 
 ## Building
