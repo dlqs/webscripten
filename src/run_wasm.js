@@ -1,6 +1,7 @@
 const util = require('./util.js')
 const WASI = require('./wasi.index.esm').WASI
 const WasmFs = require('./wasmfs.index.esm').WasmFs
+const math = require('./lib/math.js')
 const browserBindings = require('./browserBindings.js').default
 
 function runWasm(code) {
@@ -18,7 +19,7 @@ function runWasm(code) {
     const importObject = {
       ...wasi.getImports(module),
       env: {
-        math_sin: (i) => Math.sin(i),
+        ...math,
       },
     }
 
