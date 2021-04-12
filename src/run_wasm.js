@@ -5,7 +5,6 @@ const browserBindings = require('./browserBindings.js').default
 
 // Libraries
 const math = require('./lib/math.js')
-const curves = require('./lib/curves.js').curves
 
 function runWasm(code) {
   return new Promise(async (resolve, reject) => {
@@ -19,13 +18,10 @@ function runWasm(code) {
       },
     })
 
-    console.log(curves)
-
     const importObject = {
       ...wasi.getImports(module),
       env: {
         ...math,
-        ...curves,
       },
     }
 
