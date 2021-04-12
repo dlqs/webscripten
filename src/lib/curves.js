@@ -1,4 +1,4 @@
-(function () {
+exports.curves = (function () {
     'use strict';
 
     (function() {
