@@ -1,8 +1,11 @@
 const util = require('./util.js')
 const WASI = require('./wasi.index.esm').WASI
 const WasmFs = require('./wasmfs.index.esm').WasmFs
-const math = require('./lib/math.js')
 const browserBindings = require('./browserBindings.js').default
+
+// Libraries
+const math = require('./lib/math.js')
+const curves = require('./lib/curves.js')
 
 function runWasm(code) {
   return new Promise(async (resolve, reject) => {
@@ -16,10 +19,13 @@ function runWasm(code) {
       },
     })
 
+    console.log(curves)
+
     const importObject = {
       ...wasi.getImports(module),
       env: {
         ...math,
+        ...curves,
       },
     }
 
