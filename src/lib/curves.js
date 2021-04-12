@@ -916,4 +916,4 @@ exports.curves = (function () {
 
     return curves;
 
-}())();
+}());
