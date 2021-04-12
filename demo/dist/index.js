@@ -3524,8 +3524,57 @@ var Eb = (function (a) {
 
 /***/ }),
 
+/***/ 525:
+/***/ ((__unused_webpack_module, exports) => {
+
+exports.math_abs = Math.abs 
+exports.math_acos = Math.acos 
+exports.math_acosh = Math.acosh 
+exports.math_asin = Math.asin 
+exports.math_asinh = Math.asinh 
+exports.math_atan = Math.atan 
+exports.math_atan2 = Math.atan2 
+exports.math_atanh = Math.atanh 
+exports.math_cbrt = Math.cbrt 
+exports.math_ceil = Math.ceil 
+exports.math_clz32 = Math.clz32 
+exports.math_cos = Math.cos 
+exports.math_cosh = Math.cosh 
+exports.math_E = Math.E 
+exports.math_exp = Math.exp 
+exports.math_expm1 = Math.expm1 
+exports.math_floor = Math.floor 
+exports.math_fround = Math.fround 
+exports.math_hypot = Math.hypot 
+exports.math_imul = Math.imul 
+exports.math_LN2 = Math.LN2 
+exports.math_LN10 = Math.LN10 
+exports.math_log = Math.log 
+exports.math_log1p = Math.log1p 
+exports.math_log2 = Math.log2 
+exports.math_LOG2E = Math.LOG2E 
+exports.math_log10 = Math.log10 
+exports.math_LOG10E = Math.LOG10E 
+exports.math_max = Math.max 
+exports.math_min = Math.min 
+exports.math_PI = Math.PI 
+exports.math_pow = Math.pow 
+exports.math_random = Math.random 
+exports.math_round = Math.round 
+exports.math_sign = Math.sign 
+exports.math_sin = Math.sin 
+exports.math_sinh = Math.sinh 
+exports.math_sqrt = Math.sqrt 
+exports.math_SQRT1_2 = Math.SQRT1_2 
+exports.math_SQRT2 = Math.SQRT2 
+exports.math_tan = Math.tan 
+exports.math_tanh = Math.tanh 
+exports.math_trunc = Math.trunc 
+
+/***/ }),
+
 /***/ 869:
-/***/ ((module, exports, __nested_webpack_require_96156__) => {
+/***/ ((module, exports, __nested_webpack_require_97576__) => {
 
 var __dirname = "/";
 function run(Module) {
@@ -3566,13 +3615,13 @@ function run(Module) {
   var nodePath
   if (ENVIRONMENT_IS_NODE) {
     if (ENVIRONMENT_IS_WORKER) {
-      scriptDirectory = __nested_webpack_require_96156__(470).dirname(scriptDirectory) + '/'
+      scriptDirectory = __nested_webpack_require_97576__(470).dirname(scriptDirectory) + '/'
     } else {
       scriptDirectory = __dirname + '/'
     }
     read_ = function shell_read(filename, binary) {
-      if (!nodeFS) nodeFS = __nested_webpack_require_96156__(351)
-      if (!nodePath) nodePath = __nested_webpack_require_96156__(470)
+      if (!nodeFS) nodeFS = __nested_webpack_require_97576__(351)
+      if (!nodePath) nodePath = __nested_webpack_require_97576__(470)
       filename = nodePath['normalize'](filename)
       return nodeFS['readFileSync'](filename, binary ? null : 'utf8')
     }
@@ -4205,7 +4254,7 @@ function run(Module) {
       }
     } else if (ENVIRONMENT_IS_NODE) {
       try {
-        var crypto_module = __nested_webpack_require_96156__(85)
+        var crypto_module = __nested_webpack_require_97576__(85)
         return function () {
           return crypto_module['randomBytes'](1)[0]
         }
@@ -8377,7 +8426,7 @@ exports.run = run
 /***/ }),
 
 /***/ 242:
-/***/ ((module, exports, __nested_webpack_require_241450__) => {
+/***/ ((module, exports, __nested_webpack_require_242870__) => {
 
 var __dirname = "/";
 function run(Module) {
@@ -8418,13 +8467,13 @@ function run(Module) {
   var nodePath
   if (ENVIRONMENT_IS_NODE) {
     if (ENVIRONMENT_IS_WORKER) {
-      scriptDirectory = __nested_webpack_require_241450__(470).dirname(scriptDirectory) + '/'
+      scriptDirectory = __nested_webpack_require_242870__(470).dirname(scriptDirectory) + '/'
     } else {
       scriptDirectory = __dirname + '/'
     }
     read_ = function shell_read(filename, binary) {
-      if (!nodeFS) nodeFS = __nested_webpack_require_241450__(351)
-      if (!nodePath) nodePath = __nested_webpack_require_241450__(470)
+      if (!nodeFS) nodeFS = __nested_webpack_require_242870__(351)
+      if (!nodePath) nodePath = __nested_webpack_require_242870__(470)
       filename = nodePath['normalize'](filename)
       return nodeFS['readFileSync'](filename, binary ? null : 'utf8')
     }
@@ -9125,7 +9174,7 @@ function run(Module) {
       }
     } else if (ENVIRONMENT_IS_NODE) {
       try {
-        var crypto_module = __nested_webpack_require_241450__(85)
+        var crypto_module = __nested_webpack_require_242870__(85)
         return function () {
           return crypto_module['randomBytes'](1)[0]
         }
@@ -13493,11 +13542,11 @@ exports.run = run
 /***/ }),
 
 /***/ 526:
-/***/ ((module, exports, __nested_webpack_require_394745__) => {
+/***/ ((module, exports, __nested_webpack_require_396165__) => {
 
-/* module decorator */ module = __nested_webpack_require_394745__.nmd(module);
-const run = __nested_webpack_require_394745__(869).run
-const util = __nested_webpack_require_394745__(891)
+/* module decorator */ module = __nested_webpack_require_396165__.nmd(module);
+const run = __nested_webpack_require_396165__(869).run
+const util = __nested_webpack_require_396165__(891)
 
 function runLLC(code, staticPath) {
   return new Promise((resolve, reject) => {
@@ -13553,11 +13602,11 @@ exports.runLLC = runLLC
 /***/ }),
 
 /***/ 542:
-/***/ ((module, exports, __nested_webpack_require_396519__) => {
+/***/ ((module, exports, __nested_webpack_require_397939__) => {
 
-/* module decorator */ module = __nested_webpack_require_396519__.nmd(module);
-const run = __nested_webpack_require_396519__(242).run
-const util = __nested_webpack_require_396519__(891)
+/* module decorator */ module = __nested_webpack_require_397939__.nmd(module);
+const run = __nested_webpack_require_397939__(242).run
+const util = __nested_webpack_require_397939__(891)
 let sysroot
 function runLLD(code, staticPath) {
   return new Promise((resolve, reject) => {
@@ -13699,12 +13748,13 @@ function hello_world_hex() {
 /***/ }),
 
 /***/ 816:
-/***/ ((__unused_webpack_module, exports, __nested_webpack_require_401347__) => {
+/***/ ((__unused_webpack_module, exports, __nested_webpack_require_402767__) => {
 
-const util = __nested_webpack_require_401347__(891)
-const WASI = __nested_webpack_require_401347__(664)/* .WASI */ .xP
-const WasmFs = __nested_webpack_require_401347__(325)/* .WasmFs */ .Y
-const browserBindings = __nested_webpack_require_401347__(417)/* .default */ .Z
+const util = __nested_webpack_require_402767__(891)
+const WASI = __nested_webpack_require_402767__(664)/* .WASI */ .xP
+const WasmFs = __nested_webpack_require_402767__(325)/* .WasmFs */ .Y
+const math = __nested_webpack_require_402767__(525)
+const browserBindings = __nested_webpack_require_402767__(417)/* .default */ .Z
 
 function runWasm(code) {
   return new Promise(async (resolve, reject) => {
@@ -13721,7 +13771,7 @@ function runWasm(code) {
     const importObject = {
       ...wasi.getImports(module),
       env: {
-        math_sin: (i) => Math.sin(i),
+        ...math,
       },
     }
 
@@ -13739,11 +13789,11 @@ exports.runWasm = runWasm
 /***/ }),
 
 /***/ 891:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_402291__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_403728__) => {
 
 "use strict";
-__nested_webpack_require_402291__.r(__webpack_exports__);
-/* harmony export */ __nested_webpack_require_402291__.d(__webpack_exports__, {
+__nested_webpack_require_403728__.r(__webpack_exports__);
+/* harmony export */ __nested_webpack_require_403728__.d(__webpack_exports__, {
 /* harmony export */   "Uint8ArrayToBase64": () => (/* binding */ Uint8ArrayToBase64),
 /* harmony export */   "Base64ToUint8Array": () => (/* binding */ Base64ToUint8Array),
 /* harmony export */   "Base64ToArrayBuffer": () => (/* binding */ Base64ToArrayBuffer),
@@ -13821,10 +13871,10 @@ function HexToUint8Array(str) {
 /***/ }),
 
 /***/ 664:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_404395__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_405832__) => {
 
 "use strict";
-/* harmony export */ __nested_webpack_require_404395__.d(__webpack_exports__, {
+/* harmony export */ __nested_webpack_require_405832__.d(__webpack_exports__, {
 /* harmony export */   "xP": () => (/* binding */ dc)
 /* harmony export */ });
 /* unused harmony exports WASIError, WASIExitError, WASIKillError */
@@ -13902,8 +13952,8 @@ function fa() {
 var ha =
     'undefined' !== typeof globalThis
       ? globalThis
-      : 'undefined' !== typeof __nested_webpack_require_404395__.g
-      ? __nested_webpack_require_404395__.g
+      : 'undefined' !== typeof __nested_webpack_require_405832__.g
+      ? __nested_webpack_require_405832__.g
       : {},
   k = 'undefined' !== typeof BigInt ? BigInt : ha.BigInt || Number,
   ia = DataView
@@ -13933,8 +13983,8 @@ ia.prototype.setBigUint64 ||
     return k('0b' + a + (b + c))
   }))
 var ja =
-    'undefined' !== typeof __nested_webpack_require_404395__.g
-      ? __nested_webpack_require_404395__.g
+    'undefined' !== typeof __nested_webpack_require_405832__.g
+      ? __nested_webpack_require_405832__.g
       : 'undefined' !== typeof self
       ? self
       : 'undefined' !== typeof window
@@ -15082,8 +15132,8 @@ var Ra = Object.freeze({
       ? globalThis
       : 'undefined' !== typeof window
       ? window
-      : 'undefined' !== typeof __nested_webpack_require_404395__.g
-      ? __nested_webpack_require_404395__.g
+      : 'undefined' !== typeof __nested_webpack_require_405832__.g
+      ? __nested_webpack_require_405832__.g
       : 'undefined' !== typeof self
       ? self
       : {}
@@ -16691,10 +16741,10 @@ var ac = (function (a) {
 /***/ }),
 
 /***/ 325:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_482592__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __nested_webpack_require_484029__) => {
 
 "use strict";
-/* harmony export */ __nested_webpack_require_482592__.d(__webpack_exports__, {
+/* harmony export */ __nested_webpack_require_484029__.d(__webpack_exports__, {
 /* harmony export */   "Y": () => (/* binding */ sf)
 /* harmony export */ });
 /*
@@ -16867,8 +16917,8 @@ var l =
     ? globalThis
     : 'undefined' !== typeof window
     ? window
-    : 'undefined' !== typeof __nested_webpack_require_482592__.g
-    ? __nested_webpack_require_482592__.g
+    : 'undefined' !== typeof __nested_webpack_require_484029__.g
+    ? __nested_webpack_require_484029__.g
     : 'undefined' !== typeof self
     ? self
     : {}
@@ -17016,8 +17066,8 @@ var ja = u(function (a, b) {
   })
 t(ka)
 var la =
-    'undefined' !== typeof __nested_webpack_require_482592__.g
-      ? __nested_webpack_require_482592__.g
+    'undefined' !== typeof __nested_webpack_require_484029__.g
+      ? __nested_webpack_require_484029__.g
       : 'undefined' !== typeof self
       ? self
       : 'undefined' !== typeof window
@@ -23521,7 +23571,7 @@ var sf = (function () {
 /******/ 	var __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
-/******/ 	function __nested_webpack_require_671179__(moduleId) {
+/******/ 	function __nested_webpack_require_672616__(moduleId) {
 /******/ 		// Check if module is in cache
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
@@ -23535,7 +23585,7 @@ var sf = (function () {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_671179__);
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_672616__);
 /******/ 	
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
@@ -23548,9 +23598,9 @@ var sf = (function () {
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__nested_webpack_require_671179__.d = (exports, definition) => {
+/******/ 		__nested_webpack_require_672616__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
-/******/ 				if(__nested_webpack_require_671179__.o(definition, key) && !__nested_webpack_require_671179__.o(exports, key)) {
+/******/ 				if(__nested_webpack_require_672616__.o(definition, key) && !__nested_webpack_require_672616__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
@@ -23559,7 +23609,7 @@ var sf = (function () {
 /******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
-/******/ 		__nested_webpack_require_671179__.g = (function() {
+/******/ 		__nested_webpack_require_672616__.g = (function() {
 /******/ 			if (typeof globalThis === 'object') return globalThis;
 /******/ 			try {
 /******/ 				return this || new Function('return this')();
@@ -23571,13 +23621,13 @@ var sf = (function () {
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__nested_webpack_require_671179__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__nested_webpack_require_672616__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__nested_webpack_require_671179__.r = (exports) => {
+/******/ 		__nested_webpack_require_672616__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
@@ -23587,7 +23637,7 @@ var sf = (function () {
 /******/ 	
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
-/******/ 		__nested_webpack_require_671179__.nmd = (module) => {
+/******/ 		__nested_webpack_require_672616__.nmd = (module) => {
 /******/ 			module.paths = [];
 /******/ 			if (!module.children) module.children = [];
 /******/ 			return module;
@@ -23599,9 +23649,9 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 var exports = __webpack_exports__;
-const runLLC = __nested_webpack_require_671179__(526)
-const runLLD = __nested_webpack_require_671179__(542)
-const runWasm = __nested_webpack_require_671179__(816)
+const runLLC = __nested_webpack_require_672616__(526)
+const runLLD = __nested_webpack_require_672616__(542)
+const runWasm = __nested_webpack_require_672616__(816)
 
 /**
  * Compiles LLVM IR to an object file with llvm/llc.
