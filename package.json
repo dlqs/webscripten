@@ -1,6 +1,6 @@
 {
   "name": "webscripten",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "description": "",
   "main": "dist/webscripten.bundle.js",
   "scripts": {
