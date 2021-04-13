@@ -15,11 +15,25 @@
 			width: 1000px;
 			height: 600px;
 		}
+		#result {
+			width: 1000px;
+			height: 60px;
+		}
+		#time {
+			width: 200px;
+			height: 20px;
+		}
 	</style>
 </head>
 
 <body>
 	<textarea id="code" name="code"></textarea>
-	<button type="button" id="llcCompile">CompileLinkRun</button>
+	<br/>
+	<button type="button" id="compile">compile</button>
+	<button type="button" id="link">link</button>
+	<button type="button" id="run">run</button>
+	<textarea readonly id="time" name="time"></textarea>
+	<br/>
+	<textarea readonly id="result" name="result"></textarea>
 	<script type="application/javascript" src="index.js"></script>
 </body></html>

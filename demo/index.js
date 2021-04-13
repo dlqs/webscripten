@@ -37,13 +37,54 @@ attributes #1 = { "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-
 `;
 
 // Example of adding compileLinkRun to a button
-const compileButton = document.getElementById("llcCompile");
+const compileButton = document.getElementById("compile");
+const linkButton = document.getElementById("link");
+const runButton = document.getElementById("run");
+const resultBox = document.getElementById("result");
+
+let objectFile;
+let executable;
 compileButton.addEventListener("click", function () {
-  webscripten.compileLinkRun(codeBox.value, 'static/').then(
+  webscripten.compile(codeBox.value, 'static/').then(
     (resolved) => {
+      objectFile = resolved;
+      resultBox.value = "compiled.";
+      console.log("compiled.");
+    },
+    (rejected) => {
+      resultBox = rejected;
+      console.error(rejected);
+    }
+  );
+});
+
+linkButton.addEventListener("click", function () {
+  webscripten.link(objectFile, 'static/').then(
+    (resolved) => {
+      executable = resolved;
+      resultBox.value = "linked.";
+      console.log("linked.");
+    },
+    (rejected) => {
+      resultBox.value = rejected;
+      console.error(rejected);
+    }
+  );
+});
+
+const timeBox = document.getElementById("time");
+
+runButton.addEventListener("click", function () {
+  let startTime = Date.now();
+  webscripten.run(executable, 'static/').then(
+    (resolved) => {
+      let endTime = Date.now();
+      timeBox.value = (endTime - startTime) + "ms"
+      resultBox.value = resolved;
       console.log(resolved);
     },
     (rejected) => {
+      resultBox.value = rejected;
       console.error(rejected);
     }
   );

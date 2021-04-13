@@ -17,7 +17,14 @@ function runLLC(code, staticPath) {
       }
     }
     module = {
-      arguments: ['-march=wasm32', 'a.ll', '-filetype=obj', '-o', './a.o'],
+      arguments: [
+        '-march=wasm32',
+        'a.ll',
+        '-filetype=obj',
+        '-O3',
+        '-o',
+        './a.o',
+      ],
       locateFile: function (path, prefix) {
         // 'localhost:8000/assets/static/' + 'llc.wasm'
         return staticPath + path
