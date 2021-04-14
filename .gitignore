@@ -1,3 +1,4 @@
 node_modules/
 # dist/ contains the js that is finally shipped in the npm package
 dist/
+*.out

@@ -40,6 +40,7 @@ attributes #1 = { "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-
 const compileButton = document.getElementById("compile");
 const linkButton = document.getElementById("link");
 const runButton = document.getElementById("run");
+const downloadButton = document.getElementById("download");
 const resultBox = document.getElementById("result");
 
 let objectFile;
@@ -88,4 +89,33 @@ runButton.addEventListener("click", function () {
       console.error(rejected);
     }
   );
+});
+
+function HexToUint8Array(str) {
+  if (!str) {
+    return new Uint8Array()
+  }
+
+  var a = []
+  for (var i = 0, len = str.length; i < len; i += 2) {
+    a.push(parseInt(str.substr(i, 2), 16))
+  }
+
+  return new Uint8Array(a)
+}
+
+function saveBlob(blob, fileName) {
+  var a = document.createElement('a')
+  document.body.appendChild(a)
+  a.style = 'display: none'
+  var url = window.URL.createObjectURL(blob)
+  a.href = url
+  a.download = fileName
+  a.click()
+  window.URL.revokeObjectURL(url)
+}
+
+
+downloadButton.addEventListener("click", function () {
+  saveBlob(new Blob(HexToUint8Array(executable)), "a.wasm");
 });
