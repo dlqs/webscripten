@@ -3,28 +3,57 @@ Webscripten is a compiler for LLVM IR to WebAssembly, written in WebAssembly, us
 This project allows for compilation and running of LLVM IR from entirely within the browser.
 Webscripten uses the LLVM IR compiler (llc) and LLVM Linker (lld) which have been compiled to WebAssembly.
 
+### Layout
+```
+.
+├── demo                // example of using the webscripten npm package
+├── dist                // distribution for npm (gitignored)
+├── node_modules
+├── package.json
+├── prettier.config.js
+├── README.md
+├── src                 // source code folder
+│   ├── lib/            // Javascript library code for the final WebAssembly executable
+│   ├── static/         // llvm tools compiled to WebAssembly
+│   ├── llc.js          // loading code
+│   ├── lld.js          // loading code
+│   ├── main.js         // main entrypoint for webscripten
+│   ├── run_llc.js
+│   ├── run_lld.js
+│   ├── run_wasm.js
+│   ├── util.js
+│   ├── browserBindings.js
+│   ├── wasi.index.esm.js
+│   └── wasmfs.index.esm.js
+└── webpack.config.js   // creates distribution
+```
+
 ## Usage
 Webscripen can be installed via npm/yarn and can be deployed using a Javascript bundler.
 An example is provided in the [demo folder](https://github.com/dlqs/webscripten/tree/master/demo). Visit the final deployed website [here](https://dlqs.github.io/webscripten/demo/dist/index.html).
 
+
 **Warning: the combined binaries are large (60MBs) and can cause significant lag (5-10 seconds) in the browser.**  
 The WebAssembly binaries are lazily downloaded, when required.
 Please ensure a minimum of 1GB of available RAM and patience when running this module.
-
+### Installation
+```
+npm install webscripten
+```
 
 ### API
-#### webscripten.compile(code: string): Promise\<string>
+#### compile(code: string, staticPath: string): Promise\<string>
 Returns a promise with the compiled LLVM IR (the object file) as a hex string.
 This is so that it can be easily passed around or stored in LocalStorage etc.
 Object files are *not* executable until they are linked.  
 
-#### webscripten.link(obj: string): Promise\<string>
+#### link(obj: string, staticPath: string): Promise\<string>
 Returns a promise with the linked object file (the runnable WebAssembly module) as a hex string.
 
-#### webscripten.run(wasm: string): Promise\<string>
+#### run(wasm: string, staticPath: string): Promise\<string>
 Returns a promise with the stdout from running the WebAssembly module.
 
-#### webscripten.compileLinkRun(code: string): Promise\<string>
+#### compileLinkRun(code: string, staticPath: string): Promise\<string>
 Returns a promise with the stdout from compiling, linking and running the LLVM IR.
 This is a composition of the `compile`, `link` and `run` APIs described above.
 
@@ -50,16 +79,19 @@ const out2 = await webscripten.compileLinkRun(ir)
 // out and out2 are the same
 ```
 
-## Building
-
+## Development
+### Building
 The build process is rather long and involves compiling the LLVM tools and generating the Javascript glue code.
 
-npx webpack --config webpack.config.js
-
-## API
-in src/main.js
-
-prereq: clang, cmake
+#### Requirements
+ - Minimum 8GB RAM
+ - Visit the [Getting Started section of the LLVM docs](https://llvm.org/docs/GettingStarted.html)
+and ensure your computer (the host) meets all the requirements in the Requirements section.
+Your computer must meet all hardware, software and host C++ toolchain requirements. 
+A GNU/Linux OS + x86 + gcc + Clang platform is the recommended setup.
+- You can also use an Ubuntu EC2 instance. 
+- The entire process takes about 2 hours.
+#### Steps
 
 ```
 mkdir build
