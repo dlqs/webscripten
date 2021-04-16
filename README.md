@@ -1,45 +1,20 @@
 # Webscripten
 Webscripten is a compiler for LLVM IR to WebAssembly, written in WebAssembly, using tools from the LLVM Project.
 This project allows for compilation and running of LLVM IR from entirely within the browser.
-Webscripten uses the LLVM IR compiler (llc) and LLVM Linker (lld) which have been compiled to WebAssembly.
 
-### Layout
-```
-.
-├── demo                // example of using the webscripten npm package
-├── dist                // distribution for npm (gitignored)
-├── node_modules
-├── package.json
-├── prettier.config.js
-├── README.md
-├── src                 // source code folder
-│   ├── lib/            // Javascript library code for the final WebAssembly executable
-│   ├── static/         // llvm tools compiled to WebAssembly
-│   ├── llc.js          // loading code
-│   ├── lld.js          // loading code
-│   ├── main.js         // main entrypoint for webscripten
-│   ├── run_llc.js
-│   ├── run_lld.js
-│   ├── run_wasm.js
-│   ├── util.js
-│   ├── browserBindings.js
-│   ├── wasi.index.esm.js
-│   └── wasmfs.index.esm.js
-└── webpack.config.js   // creates distribution
-```
+[Try it in the browser here.](https://dlqs.github.io/webscripten/demo/dist/index.html)
 
 ## Usage
-Webscripen can be installed via npm/yarn and can be deployed using a Javascript bundler.
-An example is provided in the [demo folder](https://github.com/dlqs/webscripten/tree/master/demo). Visit the final deployed website [here](https://dlqs.github.io/webscripten/demo/dist/index.html).
-
-
-**Warning: the combined binaries are large (60MBs) and can cause significant lag (5-10 seconds) in the browser.**  
-The WebAssembly binaries are lazily downloaded, when required.
-Please ensure a minimum of 1GB of available RAM and patience when running this module.
+Webscripen can be installed via npm/yarn and must be deployed using a Javascript bundler.
 ### Installation
 ```
 npm install webscripten
 ```
+An example is provided in the [demo folder](https://github.com/dlqs/webscripten/tree/master/demo).
+
+**Warning: the combined binaries are large (60MBs) and can cause significant lag (5-10 seconds) in the browser.**  
+The WebAssembly binaries are lazily downloaded, when required.
+Please ensure a minimum of 1GB of available RAM and patience when running this module.
 
 ### API
 #### compile(code: string, staticPath: string): Promise\<string>
@@ -80,6 +55,31 @@ const out2 = await webscripten.compileLinkRun(ir)
 ```
 
 ## Development
+### Layout
+```
+.
+├── demo                // example of using the webscripten npm package
+├── dist                // distribution for npm (gitignored)
+├── node_modules
+├── package.json
+├── prettier.config.js
+├── README.md
+├── src                 // source code folder
+│   ├── lib/            // Javascript library code for the final WebAssembly executable
+│   ├── static/         // llvm tools compiled to WebAssembly
+│   ├── llc.js          // loading code
+│   ├── lld.js          // loading code
+│   ├── main.js         // main entrypoint for webscripten
+│   ├── run_llc.js
+│   ├── run_lld.js
+│   ├── run_wasm.js
+│   ├── util.js
+│   ├── browserBindings.js
+│   ├── wasi.index.esm.js
+│   └── wasmfs.index.esm.js
+└── webpack.config.js   // creates distribution
+```
+
 ### Building
 The build process is rather long and involves compiling the LLVM tools and generating the Javascript glue code.
 
