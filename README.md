@@ -136,5 +136,34 @@ cmake --build .
 
 ## Future work
 ### Linking other libraries
+#### Static Linking Using LLD
+As of now, static linking is done by fetching the library folder `sysroot.tar` located in the static folder, and copying its contents into LLD's filesystem. The un-taring code is taken from [wasm-clang](https://github.com/binji/wasm-clang/blob/8e78cdb9caa80f75ed86d6632cb4e9310b22748c/shared.js#L580-L652). 
+To add extra libraries, modify the code in `run_lld.js` to do the same for other `tar` files. 
+#### Importing Javascript functions using Webassembly imports
+Inside the file `run_wasm.js` , import the javascript module via `require` and add the module to the environment of `importObject` before running the WebAssembly instance. 
+
+Example (math library):
+
+```
+const math = require('./lib/math.js')
+... < other code >
+
+    const importObject = {
+      ...wasi.getImports(module),
+      env: {
+        ...math,
+      },
+    }
+
+    let instance = await WebAssembly.instantiate(module, importObject)
+```
+
 ### Integration with llvm-sauce
-There is a dependency on llvm-sauce being able to run standalone in the browser.
+There is a dependency on [llvm-sauce](https://github.com/jiachen247/llvm-sauce) being able to run standalone in the browser. 
+
+### Higher order functions
+Passing higher order functions between javascript and WebAssembly is a difficult task. A very simple example program would be:
+```
+const array = map([1,2,3,4],x=>x+1);
+```
+This would be an issue if we define the `map` function as the standard javascript `map` function is it would simply read the function as a number(pointer address) instead of a function.
