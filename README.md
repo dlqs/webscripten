@@ -133,3 +133,8 @@ emcmake cmake -G "Ninja" -DLLVM_ENABLE_DUMP=OFF -DLLVM_ENABLE_ASSERTIONS=OFF -DL
 // kick off the webscripten build (~30 minutes)
 cmake --build .
 ```
+
+## Future work
+### Linking other libraries
+### Integration with llvm-sauce
+There is a dependency on llvm-sauce being able to run standalone in the browser.
