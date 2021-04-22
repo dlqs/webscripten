@@ -169,7 +169,7 @@ A function pointer is compiled to an integer in WebAssembly, which is the index 
 If we provide the definition of `map` inside the IR itself, then there would be no problems. However, if we wish to use javascript's implementation of `map`, there would be problems as the function would read its parameters as two numbers which is not what we want.  
 
 #### Potential Solutions
-#####Passing Arrays Between WebAssembly and Javascript
+##### Passing Arrays Between WebAssembly and Javascript
 The [this article](https://rob-blackbourn.github.io/blog/webassembly/wasm/array/arrays/javascript/c/2020/06/07/wasm-arrays.html) contains a section which has  a primitive implementation of passing arrays between javascript and WebAssembly by managing the memory of the WebAssembly instance using javascript.
-#####Passing functions
+##### Passing functions
 We can make use of the table index that was passed to obtain the Exported WebAssembly Function which we can call using javascript. This however, requires table to be imported into the WebAssembly module first. It is also possible to convert a javascript function into an Exported WebAssembly Function and add it into the table, [click here for more information](https://stackoverflow.com/questions/57541117/webassembly-call-javascript-functions-as-function-pointers-from-c). As of now, there are no proper solution to create new functions during runtime using WebAssembly. 
