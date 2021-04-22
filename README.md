@@ -161,15 +161,17 @@ const math = require('./lib/math.js')
 ### Integration with llvm-sauce
 There is a dependency on [llvm-sauce](https://github.com/jiachen247/llvm-sauce) being able to run standalone in the browser. 
 
-### Higher order functions
-Passing higher order functions between javascript and WebAssembly is a difficult task. A very simple example program would be the `map` function. In LLVM IR the function would take in an pointer(array) and a function pointer as its arguments. 
+### Higher Order Programming
+Passing higher order functions between javascript and WebAssembly is a difficult task. A very simple example would be the `map` function. In LLVM IR the function signature would take in an pointer(array) and a function pointer as its arguments. 
 
 A function pointer is compiled to an integer in WebAssembly, which is the index of the function in the program's function table. For more information on WebAssembly function tables, [click here](https://hacks.mozilla.org/2017/07/webassembly-table-imports-what-are-they/). 
 
-If we provide the definition of `map` inside the IR itself, then there would be no problems. However, if we wish to use javascript's implementation of `map`, there would be problems as the function would read its parameters as two numbers which is not what we want.  
+If we provide the definition of `map` inside the IR itself, then there would be no problem at all. However, if we wish to use javascript's implementation of `map`, there would be problems as the function would read its parameters as two numbers which is not what we want.
 
 #### Potential Solutions
+The following are some possible solutions to the problems posed by higher order programming.
 ##### Passing Arrays Between WebAssembly and Javascript
-The [this article](https://rob-blackbourn.github.io/blog/webassembly/wasm/array/arrays/javascript/c/2020/06/07/wasm-arrays.html) contains a section which has  a primitive implementation of passing arrays between javascript and WebAssembly by managing the memory of the WebAssembly instance using javascript.
-##### Passing functions
-We can make use of the table index that was passed to obtain the Exported WebAssembly Function which we can call using javascript. This however, requires table to be imported into the WebAssembly module first. It is also possible to convert a javascript function into an Exported WebAssembly Function and add it into the table, [click here for more information](https://stackoverflow.com/questions/57541117/webassembly-call-javascript-functions-as-function-pointers-from-c). As of now, there are no proper solution to create new functions during runtime using WebAssembly. 
+[This article](https://rob-blackbourn.github.io/blog/webassembly/wasm/array/arrays/javascript/c/2020/06/07/wasm-arrays.html) contains a section which has  an implementation of passing arrays between javascript and WebAssembly by managing the memory of the WebAssembly instance using javascript.
+##### Passing and Adding Functions
+* We can make use of the table index that was passed to obtain the Exported WebAssembly Function from the function table. This however, requires table to be imported into the WebAssembly module first, [click here for more information](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Table). 
+* It is also possible to convert a javascript function into an Exported WebAssembly Function and add it into the table, [click here for more information](https://stackoverflow.com/questions/57541117/webassembly-call-javascript-functions-as-function-pointers-from-c).
