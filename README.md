@@ -137,8 +137,8 @@ cmake --build .
 ## Future work
 ### Linking other libraries
 #### Static Linking Using LLD
-As of now, static linking is done by fetching the library folder `sysroot.tar` located in the static folder, and copying its contents into LLD's filesystem. The un-taring code is taken from [wasm-clang](https://github.com/binji/wasm-clang/blob/8e78cdb9caa80f75ed86d6632cb4e9310b22748c/shared.js#L580-L652). 
-To add extra libraries, modify the code in `run_lld.js` to do the same for other `tar` files. 
+As of now, static linking is done by fetching the library folder `sysroot.tar` located in the static folder, and copying its contents into LLD's filesystem. Extra flags would also have to be added to LLD's arguments to let LLD know the location of the libraries. The un-taring code is taken from [wasm-clang](https://github.com/binji/wasm-clang/blob/8e78cdb9caa80f75ed86d6632cb4e9310b22748c/shared.js#L580-L652).  
+To add extra libraries, modify the code in `run_lld.js` to do the same for other `.tar` library files. 
 #### Importing Javascript functions using Webassembly imports
 Inside the file `run_wasm.js` , import the javascript module via `require` and add the module to the environment of `importObject` before running the WebAssembly instance. 
 
@@ -162,8 +162,14 @@ const math = require('./lib/math.js')
 There is a dependency on [llvm-sauce](https://github.com/jiachen247/llvm-sauce) being able to run standalone in the browser. 
 
 ### Higher order functions
-Passing higher order functions between javascript and WebAssembly is a difficult task. A very simple example program would be:
-```
-const array = map([1,2,3,4],x=>x+1);
-```
-This would be an issue if we define the `map` function as the standard javascript `map` function is it would simply read the function as a number(pointer address) instead of a function.
+Passing higher order functions between javascript and WebAssembly is a difficult task. A very simple example program would be the `map` function. In LLVM IR the function would take in an pointer(array) and a function pointer as its arguments. 
+
+A function pointer is compiled to an integer in WebAssembly, which is the index of the function in the program's function table. For more information on WebAssembly function tables, [click here](https://hacks.mozilla.org/2017/07/webassembly-table-imports-what-are-they/). 
+
+If we provide the definition of `map` inside the IR itself, then there would be no problems. However, if we wish to use javascript's implementation of `map`, there would be problems as the function would read its parameters as two numbers which is not what we want.  
+
+#### Potential Solutions
+#####Passing Arrays Between WebAssembly and Javascript
+The [this article](https://rob-blackbourn.github.io/blog/webassembly/wasm/array/arrays/javascript/c/2020/06/07/wasm-arrays.html) contains a section which has  a primitive implementation of passing arrays between javascript and WebAssembly by managing the memory of the WebAssembly instance using javascript.
+#####Passing functions
+We can make use of the table index that was passed to obtain the Exported WebAssembly Function which we can call using javascript. This however, requires table to be imported into the WebAssembly module first. It is also possible to convert a javascript function into an Exported WebAssembly Function and add it into the table, [click here for more information](https://stackoverflow.com/questions/57541117/webassembly-call-javascript-functions-as-function-pointers-from-c). As of now, there are no proper solution to create new functions using WebAssembly. 
