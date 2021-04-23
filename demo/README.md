@@ -1,6 +1,2 @@
-# Example for webscripten
-This folder contains an example on how to use the webscripten package. This package uses webpack to bundle all JS dependencies into a single file.
-1. npm install webscripten
-2. `require` it from a JS file
-3. `npx webpack` it (deployables in `dist/`)
-4. voila
+# Example for Webscripten
+This directory contains an example on how to use the Webscripten package. This package uses Webpack to bundle its Javascript dependencies into a single deployable file. The static dependencies are placed in the static folder, where they are accessible at runtime.
