@@ -84,9 +84,13 @@ const out2 = await webscripten.compileLinkRun(ir)
 ├── README.md
 ├── src                 // source code folder
 │   ├── lib/            // Javascript library code for the final WebAssembly executable
-│   ├── static/         // llvm tools compiled to WebAssembly
-│   ├── llc.js          // loading code
-│   ├── lld.js          // loading code
+│   ├── static/         // static files that need to be distributed too
+|   │   ├── llc.wasm    // llc in WebAssembly
+|   │   ├── lld.wasm    // lld in WebAssembly
+|   │   ├── sysroot.tar // tar'ed headers and libraries
+|   │   └── webscripten.d.ts
+│   ├── llc.js          // loading code for llc.wasm
+│   ├── lld.js          // loading code for lld.wasm
 │   ├── main.js         // main entrypoint for webscripten
 │   ├── run_llc.js
 │   ├── run_lld.js
@@ -106,11 +110,11 @@ The build process is rather long and involves compiling the LLVM tools and gener
 - Minimum 8GB RAM and 20GB disk space
 - The entire process takes 1-2 hours, probably more for troubleshooting.
 #### Steps
-1. Visit the [Getting Started section of the LLVM docs](https://llvm.org/docs/GettingStarted.html)
-and ensure your computer (the host) meets all the requirements in the Requirements section.
-Your computer must meet all hardware, software and host C++ toolchain requirements. 
+1. Install LLVM from source. Refer to the [Getting Started section of the LLVM docs](https://llvm.org/docs/GettingStarted.html). 
+   - This step is non-trivial and will probably take an hour.
+   - Other build tools will be installed and configured in this step, such as CMake, gcc, python, and Make.
 2. Install [emscripten](https://emscripten.org/docs/getting_started/downloads.html)
-3. Run the following:
+3. Run the following to compile LLVM, then Webscripten:
 ```
 // from home directory
 git clone https://github.com/llvm/llvm-project
@@ -135,11 +139,18 @@ cmake --build .
 ```
 
 ## Future work
-### Linking other libraries
+### 1. Integration with llvm-sauce
+This will be a relatively straightforward task, but there is a dependency on [llvm-sauce](https://github.com/jiachen247/llvm-sauce) being able to run standalone in the browser.
+Since Webscripten can already run standalone in the browser (refer to the demo page), eventually these two can be integrated into Source Academy.
+### 2. Linking other libraries
+Libraries can either statically linked via LLD, or dynamically loaded by provinding Javascript functions as WebAssembly imports.  
+In the demo:
+ - `display` is statically linked via LLD
+ - `math_sin` is dynamically loaded via WebAssembly import
 #### Static Linking Using LLD
-As of now, static linking is done by fetching the library folder `sysroot.tar` located in the static folder, and copying its contents into LLD's filesystem. Extra flags would also have to be added to LLD's arguments to let LLD know the location of the libraries. The un-taring code is taken from [wasm-clang](https://github.com/binji/wasm-clang/blob/8e78cdb9caa80f75ed86d6632cb4e9310b22748c/shared.js#L580-L652).  
+Static linking is done by fetching the library folder `sysroot.tar` located in the static folder, and copying its contents into the filesystem that lld.wasm accesses. Extra flags would also have to be added to LLD's arguments to let LLD know the location of the libraries. The un-taring code is taken from [wasm-clang](https://github.com/binji/wasm-clang/blob/8e78cdb9caa80f75ed86d6632cb4e9310b22748c/shared.js#L580-L652).  
 To add extra libraries, modify the code in `run_lld.js` to do the same for other `.tar` library files. 
-#### Importing Javascript functions using Webassembly imports
+#### Dynamic loading via Webassembly imports
 Inside the file `run_wasm.js` , import the javascript module via `require` and add the module to the environment of `importObject` before running the WebAssembly instance. 
 
 Example (math library):
@@ -158,20 +169,26 @@ const math = require('./lib/math.js')
     let instance = await WebAssembly.instantiate(module, importObject)
 ```
 
-### Integration with llvm-sauce
-There is a dependency on [llvm-sauce](https://github.com/jiachen247/llvm-sauce) being able to run standalone in the browser. 
+### 3. Passing Higher Order Functions into library code
+Library functions are implemented as Javascript imports. However, passing higher order functions between Javascript and WebAssembly not trivialy implementable. Consider compilation of the following Source code:
+```
+// Source
+math_sin(0.5)
+map((x) => x + 1, list(1, 2, 3))
 
-### Higher Order Programming
-Passing higher order functions between javascript and WebAssembly is a difficult task. A very simple example would be the `map` function. In LLVM IR the function signature would take in an pointer(array) and a function pointer as its arguments. 
+// LLVM IR (declare: declares an *externally* defined function)
+declare double @math_sin(double)  // OK
+declare ? @map((? -> ?), ?)       // What is the type of map?
+```
 
-A function pointer is compiled to an integer in WebAssembly, which is the index of the function in the program's function table. For more information on WebAssembly function tables, [click here](https://hacks.mozilla.org/2017/07/webassembly-table-imports-what-are-they/). 
+One solution is for `map` library code to accept a function pointer. A function pointer is compiled to an integer in WebAssembly, which is the index of the function in the program's function table. For more information on WebAssembly function tables, [click here](https://hacks.mozilla.org/2017/07/webassembly-table-imports-what-are-they/). 
 
-If we provide the definition of `map` inside the IR itself, then there would be no problem at all. However, if we wish to use javascript's implementation of `map`, there would be problems as the function would read its parameters as two numbers which is not what we want.
+If we provide the definition of `map` inside the IR itself, then there would be no problem at all. However, if we use a Javascript implementation of `map`, the function would read its parameters as two numbers which is not what we want.
 
 #### Potential Solutions
-The following are some possible solutions to the problems posed by higher order programming.
+The following are some possible solutions to the problems posed by passing around higher order functions.
 ##### Passing Arrays Between WebAssembly and Javascript
-[This article](https://rob-blackbourn.github.io/blog/webassembly/wasm/array/arrays/javascript/c/2020/06/07/wasm-arrays.html) contains a section which has  an implementation of passing arrays between javascript and WebAssembly by managing the memory of the WebAssembly instance using javascript.
+[This article](https://rob-blackbourn.github.io/blog/webassembly/wasm/array/arrays/javascript/c/2020/06/07/wasm-arrays.html) contains a section which has an implementation of passing arrays between javascript and WebAssembly by managing the memory of the WebAssembly instance using javascript.
 ##### Passing and Adding Functions
 * We can make use of the table index that was passed to obtain the Exported WebAssembly Function from the function table. This however, requires table to be imported into the WebAssembly module first, [click here for more information](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Table). 
 * It is also possible to convert a javascript function into an Exported WebAssembly Function and add it into the table, [click here for more information](https://stackoverflow.com/questions/57541117/webassembly-call-javascript-functions-as-function-pointers-from-c).
